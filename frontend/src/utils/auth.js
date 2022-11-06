@@ -17,7 +17,7 @@ class Auth {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        origin: 'http://vden.mesto.nomoredomains.icu',
+        // origin: 'http://vden.mesto.nomoredomains.icu',
       },
       body: JSON.stringify({ email, password }),
     }).then(this._getResponseData);
@@ -28,7 +28,7 @@ class Auth {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        origin: 'http://vden.mesto.nomoredomains.icu',
+        // origin: 'http://vden.mesto.nomoredomains.icu',
       },
       body: JSON.stringify({ email, password }),
     }).then(this._getResponseData);
@@ -40,7 +40,7 @@ class Auth {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${jwt}`,
-        origin: 'http://vden.mesto.nomoredomains.icu',
+        // origin: 'http://vden.mesto.nomoredomains.icu/users/me',
       },
     }).then(this._getResponseData);
   }
