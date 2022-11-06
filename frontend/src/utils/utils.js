@@ -1,5 +1,5 @@
 const settingsApi = {
-  url: "http://api.vden.mesto.nomoredomains.icu",
+  url: "https://api.vden.mesto.nomoredomains.icu",
   headers: {
     "Accept": 'application/json',
     "Content-Type": "application/json",
@@ -7,7 +7,7 @@ const settingsApi = {
   },
 };
 
-const authUrl = "http://api.vden.mesto.nomoredomains.icu";
+const authUrl = "https://api.vden.mesto.nomoredomains.icu";
 
 export { settingsApi, authUrl };
 
