@@ -36,6 +36,7 @@ class Auth {
     return fetch(`${authUrl}/users/me`, {
       method: "GET",
       headers: {
+        "Accept": 'application/json',
         "Content-Type": "application/json",
         "Authorization": `Bearer ${jwt}`,
       },
