@@ -172,7 +172,8 @@ function App() {
       auth
         .checkToken(jwt)
         .then((res) => {
-          setEmail(res.data.email);
+          setEmail(res.email);
+          // setEmail(res.data.email);
           handleSetLoginStatus();
           navigate("/");
         })
