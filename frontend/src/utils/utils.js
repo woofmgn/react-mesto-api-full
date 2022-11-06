@@ -4,7 +4,7 @@ const settingsApi = {
   url: "http://api.vden.mesto.nomoredomains.icu",
   headers: {
     "Content-Type": "application/json",
-    // "Authorization": `Bearer ${jwtUser}`
+    "Authorization": `Bearer ${jwtUser}`
   },
 };
 
