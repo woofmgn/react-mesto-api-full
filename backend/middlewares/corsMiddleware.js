@@ -1,7 +1,11 @@
 const allowedCors = [
   'https://vden.mesto.nomoredomains.icu/',
   'http://vden.mesto.nomoredomains.icu/',
+  'https://www.vden.mesto.nomoredomains.icu/',
+  'http://www.vden.mesto.nomoredomains.icu/',
   'localhost:3000',
+  'http://localhost:3000',
+  'https://localhost:3000',
 ];
 
 // eslint-disable-next-line consistent-return
