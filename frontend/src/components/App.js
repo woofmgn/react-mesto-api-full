@@ -40,6 +40,11 @@ function App() {
   const [infoMessage, setInfoMessage] = useState("");
   const [tooltipImage, setTooltipImage] = useState("");
 
+  useEffect(() => {
+    handleCheckToken();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const dataPreload = () => {
     setLoading(true);
 
@@ -70,11 +75,6 @@ function App() {
         });
     }
   }, [isLogged]);
-
-  useEffect(() => {
-    handleCheckToken();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleEditAvatarClick = () => {
     setEditAvatarPopupOpen(!isEditAvatarPopupOpen);
