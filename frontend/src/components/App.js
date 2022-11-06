@@ -173,7 +173,6 @@ function App() {
         .checkToken(jwt)
         .then((res) => {
           setEmail(res.email);
-          // setEmail(res.data.email);
           handleSetLoginStatus();
           navigate("/");
         })
