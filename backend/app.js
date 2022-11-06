@@ -12,6 +12,7 @@ const { login, createUser } = require('./controllers/users');
 const handlerError = require('./middlewares/handlerError');
 const { validationCreateUser, validationLoginUser } = require('./middlewares/validationJoiUser');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const corsMiddleware = require('./middlewares/corsMiddleware');
 
 const NotFoundError = require('./errors/notFoundError');
 
@@ -33,6 +34,8 @@ app.use(requestLogger);
 
 app.use(limiter);
 app.use(helmet());
+
+app.use(corsMiddleware);
 
 app.post('/signin', validationLoginUser, login);
 app.post('/signup', validationCreateUser, createUser);
