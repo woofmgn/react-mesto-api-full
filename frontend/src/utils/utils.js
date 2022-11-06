@@ -1,4 +1,4 @@
-const jwtUser = localStorage.getItem("token");
+let jwtUser = localStorage.getItem("token");
 
 const settingsApi = {
   url: "http://api.vden.mesto.nomoredomains.icu",
