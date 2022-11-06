@@ -231,7 +231,8 @@ function App() {
   };
 
   const handleCardLike = (card) => {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    // const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const isLiked = card.likes.some((i) => i === currentUser._id);
 
     api
       .changeLikeCardStatus(card._id, !isLiked)
@@ -247,7 +248,8 @@ function App() {
 
   const handleCardDelete = (card) => {
     setButtonLoading(true);
-    const isOwner = card.owner._id === currentUser._id;
+    // const isOwner = card.owner._id === currentUser._id;
+    const isOwner = card.owner === currentUser._id;
 
     api
       .delCard(card._id, isOwner)
