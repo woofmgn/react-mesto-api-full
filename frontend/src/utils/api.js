@@ -4,6 +4,7 @@ class Api {
   constructor(options) {
     this._url = options.url;
     this._headers = options.headers;
+    this._token = localStorage.getItem("token");
   }
 
   _getResponseData(res) {
@@ -14,21 +15,35 @@ class Api {
   }
 
   getInitialCards() {
+    this._token = localStorage.getItem("token");
     return fetch(`${this._url}/cards`, {
-      headers: this._headers,
+      headers: {
+        "Accept": 'application/json',
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${this._token}`
+      },
     }).then(this._getResponseData);
   }
 
   getUserProfile() {
+    this._token = localStorage.getItem("token");
     return fetch(`${this._url}/users/me`, {
-      headers: this._headers,
+      headers: {
+        "Accept": 'application/json',
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${this._token}`
+      },
     }).then(this._getResponseData);
   }
 
   setUserProfile(data) {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: {
+        "Accept": 'application/json',
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${this._token}`
+      },
       body: JSON.stringify({
         name: data.name,
         about: data.about,
@@ -39,7 +54,11 @@ class Api {
   addNewCard(name, link) {
     return fetch(`${this._url}/cards`, {
       method: "POST",
-      headers: this._headers,
+      headers: {
+        "Accept": 'application/json',
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${this._token}`
+      },
       body: JSON.stringify({
         name: name,
         link: link,
@@ -51,7 +70,11 @@ class Api {
     return isOwner
       ? fetch(`${this._url}/cards/${cardId}`, {
           method: "DELETE",
-          headers: this._headers,
+          headers: {
+            "Accept": 'application/json',
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${this._token}`
+          },
         }).then(this._getResponseData)
       : null;
   }
@@ -59,14 +82,22 @@ class Api {
   _addLikeCard(cardId) {
     return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: "PUT",
-      headers: this._headers,
+      headers: {
+        "Accept": 'application/json',
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${this._token}`
+      },
     }).then(this._getResponseData);
   }
 
   _delLikeCard(cardId) {
     return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: {
+        "Accept": 'application/json',
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${this._token}`
+      },
     }).then(this._getResponseData);
   }
 
@@ -77,7 +108,11 @@ class Api {
   setUserAvatar(data) {
     return fetch(`${this._url}/users/me/avatar`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: {
+        "Accept": 'application/json',
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${this._token}`
+      },
       body: JSON.stringify({
         avatar: data,
       }),
