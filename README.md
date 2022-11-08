@@ -4,5 +4,7 @@
 Пожалуйста, прикрепите в это описание ссылку на сайт, размещенный на Яндекс.Облаке.
 
 IP 84.201.173.247
+  
 Frontend https://vden.mesto.nomoredomains.icu
+  
 Backend https://api.vden.mesto.nomoredomains.icu
