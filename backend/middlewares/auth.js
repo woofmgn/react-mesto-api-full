@@ -1,4 +1,3 @@
-require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const IncorrectTokenError = require('../errors/incorrectTokenError');
 
