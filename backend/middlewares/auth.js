@@ -18,7 +18,8 @@ module.exports = (req, res, next) => {
 
   try {
     // payload = jwt.verify(token, 'Yandex-the-best');
-    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
+    const key = NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret';
+    payload = jwt.verify(token, key);
   } catch (err) {
     return next(new IncorrectTokenError('Необходима авторизация'));
   }
