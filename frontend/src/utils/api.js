@@ -18,9 +18,9 @@ class Api {
     this._token = localStorage.getItem("token");
     return fetch(`${this._url}/cards`, {
       headers: {
-        "Accept": 'application/json',
+        Accept: "application/json",
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${this._token}`
+        Authorization: `Bearer ${this._token}`,
       },
     }).then(this._getResponseData);
   }
@@ -29,9 +29,9 @@ class Api {
     this._token = localStorage.getItem("token");
     return fetch(`${this._url}/users/me`, {
       headers: {
-        "Accept": 'application/json',
+        Accept: "application/json",
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${this._token}`
+        Authorization: `Bearer ${this._token}`,
       },
     }).then(this._getResponseData);
   }
@@ -40,9 +40,9 @@ class Api {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
       headers: {
-        "Accept": 'application/json',
+        Accept: "application/json",
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${this._token}`
+        Authorization: `Bearer ${this._token}`,
       },
       body: JSON.stringify({
         name: data.name,
@@ -55,9 +55,9 @@ class Api {
     return fetch(`${this._url}/cards`, {
       method: "POST",
       headers: {
-        "Accept": 'application/json',
+        Accept: "application/json",
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${this._token}`
+        Authorization: `Bearer ${this._token}`,
       },
       body: JSON.stringify({
         name: name,
@@ -66,26 +66,37 @@ class Api {
     }).then(this._getResponseData);
   }
 
+  // delCard(cardId, isOwner) {
+  //   return isOwner
+  //     ? fetch(`${this._url}/cards/${cardId}`, {
+  //         method: "DELETE",
+  //         headers: {
+  //           Accept: "application/json",
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${this._token}`,
+  //         },
+  //       }).then(this._getResponseData)
+  //     : null;
+  // }
+
   delCard(cardId, isOwner) {
-    return isOwner
-      ? fetch(`${this._url}/cards/${cardId}`, {
-          method: "DELETE",
-          headers: {
-            "Accept": 'application/json',
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${this._token}`
-          },
-        }).then(this._getResponseData)
-      : null;
+    return fetch(`${this._url}/cards/${cardId}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this._token}`,
+      },
+    }).then(this._getResponseData);
   }
 
   _addLikeCard(cardId) {
     return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: "PUT",
       headers: {
-        "Accept": 'application/json',
+        Accept: "application/json",
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${this._token}`
+        Authorization: `Bearer ${this._token}`,
       },
     }).then(this._getResponseData);
   }
@@ -94,9 +105,9 @@ class Api {
     return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: "DELETE",
       headers: {
-        "Accept": 'application/json',
+        Accept: "application/json",
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${this._token}`
+        Authorization: `Bearer ${this._token}`,
       },
     }).then(this._getResponseData);
   }
@@ -109,9 +120,9 @@ class Api {
     return fetch(`${this._url}/users/me/avatar`, {
       method: "PATCH",
       headers: {
-        "Accept": 'application/json',
+        Accept: "application/json",
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${this._token}`
+        Authorization: `Bearer ${this._token}`,
       },
       body: JSON.stringify({
         avatar: data,

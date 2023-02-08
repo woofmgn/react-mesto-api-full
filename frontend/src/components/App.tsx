@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -17,8 +17,28 @@ import Main from "./Main";
 import { ProtectedRoute } from "./ProtectedRoute";
 import Register from "./Register";
 
+import React from "react";
 import regComplete from "../images/loginAccept.svg";
 import LogInFailed from "../images/loginFailed.svg";
+
+interface ICards {
+  _id: string;
+  name: string;
+  link: string;
+  owner: string;
+  likes: string[];
+  createdAt?: string;
+  __v?: number;
+}
+
+interface ICurrentUser {
+  _id: string;
+  name: string;
+  about: string;
+  avatar: string;
+  email: string;
+  __v?: number;
+}
 
 function App() {
   let navigate = useNavigate();
@@ -29,9 +49,9 @@ function App() {
   const [isAuthPopup, setAuthPopup] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   const [isImagePopupOpen, setImagePopupOpen] = useState(false);
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState<ICards[]>([]);
   const [loading, setLoading] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({} as ICurrentUser);
   const [buttonLoading, setButtonLoading] = useState(false);
 
   const [email, setEmail] = useState("");
@@ -42,7 +62,7 @@ function App() {
 
   useEffect(() => {
     handleCheckToken();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const dataPreload = () => {
@@ -96,13 +116,13 @@ function App() {
     setAuthPopup(!isAuthPopup);
   };
 
-  const handleCardClick = (card) => {
+  const handleCardClick = (card: SetStateAction<{}>) => {
     setSelectedCard(card);
     setImagePopupOpen(!isImagePopupOpen);
   };
 
   // получаем стейт удаляемой карточки
-  const handleSelectDeleteCardClick = (card) => {
+  const handleSelectDeleteCardClick = (card: SetStateAction<{}>) => {
     setSelectedCard(card);
     setDeleteCardPopup(!isDeleteCardPopup);
   };
@@ -188,7 +208,7 @@ function App() {
     }
   };
 
-  const handleUpdateUser = (userInfo) => {
+  const handleUpdateUser = (userInfo: { name: string; about: string }) => {
     setButtonLoading(true);
     api
       .setUserProfile(userInfo)
@@ -202,7 +222,7 @@ function App() {
       .finally(() => setButtonLoading(false));
   };
 
-  const handleUpdateAvatar = (avatarInfo) => {
+  const handleUpdateAvatar = (avatarInfo: { avatar: string }) => {
     setButtonLoading(true);
     api
       .setUserAvatar(avatarInfo)
@@ -216,7 +236,7 @@ function App() {
       .finally(() => setButtonLoading(false));
   };
 
-  const handleAddPlaceSubmit = (cardTitle, cardLink) => {
+  const handleAddPlaceSubmit = (cardTitle: string, cardLink: string) => {
     setButtonLoading(true);
     api
       .addNewCard(cardTitle, cardLink)
@@ -230,7 +250,7 @@ function App() {
       .finally(() => setButtonLoading(false));
   };
 
-  const handleCardLike = (card) => {
+  const handleCardLike = (card: ICards) => {
     const isLiked = card.likes.some((i) => i === currentUser._id);
 
     api
@@ -245,20 +265,22 @@ function App() {
       });
   };
 
-  const handleCardDelete = (card) => {
+  const handleCardDelete = (card: ICards) => {
     setButtonLoading(true);
     const isOwner = card.owner === currentUser._id;
 
-    api
-      .delCard(card._id, isOwner)
-      .then(() => {
-        setCards((state) => state.filter((c) => card._id !== c._id));
-        closeAllPopups();
-      })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      })
-      .finally(() => setButtonLoading(false));
+    if (isOwner) {
+      api
+        .delCard(card._id, isOwner)
+        .then(() => {
+          setCards((state) => state.filter((c) => card._id !== c._id));
+          closeAllPopups();
+        })
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
+        })
+        .finally(() => setButtonLoading(false));
+    }
   };
 
   return (
