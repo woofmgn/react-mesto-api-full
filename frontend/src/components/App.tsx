@@ -31,7 +31,7 @@ export interface ICards {
   __v?: number;
 }
 
-interface ICurrentUser {
+export interface ICurrentUser {
   _id: string;
   name: string;
   about: string;
