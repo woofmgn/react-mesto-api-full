@@ -1,4 +1,4 @@
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -21,7 +21,7 @@ import React from "react";
 import regComplete from "../images/loginAccept.svg";
 import LogInFailed from "../images/loginFailed.svg";
 
-interface ICards {
+export interface ICards {
   _id: string;
   name: string;
   link: string;
@@ -47,7 +47,7 @@ function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [isDeleteCardPopup, setDeleteCardPopup] = useState(false);
   const [isAuthPopup, setAuthPopup] = useState(false);
-  const [selectedCard, setSelectedCard] = useState({});
+  const [selectedCard, setSelectedCard] = useState({} as ICards);
   const [isImagePopupOpen, setImagePopupOpen] = useState(false);
   const [cards, setCards] = useState<ICards[]>([]);
   const [loading, setLoading] = useState(false);
@@ -116,13 +116,13 @@ function App() {
     setAuthPopup(!isAuthPopup);
   };
 
-  const handleCardClick = (card: SetStateAction<{}>) => {
+  const handleCardClick = (card: ICards) => {
     setSelectedCard(card);
     setImagePopupOpen(!isImagePopupOpen);
   };
 
   // получаем стейт удаляемой карточки
-  const handleSelectDeleteCardClick = (card: SetStateAction<{}>) => {
+  const handleSelectDeleteCardClick = (card: ICards) => {
     setSelectedCard(card);
     setDeleteCardPopup(!isDeleteCardPopup);
   };
@@ -135,7 +135,7 @@ function App() {
     setDeleteCardPopup(false);
     setAuthPopup(false);
     setInfoMessage("");
-    setSelectedCard({});
+    setSelectedCard({} as ICards);
   };
 
   const handleRegisterUser = () => {
@@ -222,7 +222,7 @@ function App() {
       .finally(() => setButtonLoading(false));
   };
 
-  const handleUpdateAvatar = (avatarInfo: { avatar: string }) => {
+  const handleUpdateAvatar = (avatarInfo: string) => {
     setButtonLoading(true);
     api
       .setUserAvatar(avatarInfo)
@@ -283,6 +283,14 @@ function App() {
     }
   };
 
+  const handleSetEmail = (newEmail: string) => {
+    setEmail(newEmail);
+  };
+
+  const handleSetPassword = (newPassword: string) => {
+    setPassword(newPassword);
+  };
+
   return (
     <div className="root">
       <div className="page">
@@ -311,9 +319,9 @@ function App() {
               element={
                 <Register
                   email={email}
-                  setEmail={setEmail}
+                  setEmail={handleSetEmail}
                   password={password}
-                  setPassword={setPassword}
+                  setPassword={handleSetPassword}
                   onRegister={handleRegisterUser}
                 />
               }
@@ -323,9 +331,9 @@ function App() {
               element={
                 <Login
                   email={email}
-                  setEmail={setEmail}
+                  setEmail={handleSetEmail}
                   password={password}
-                  setPassword={setPassword}
+                  setPassword={handleSetPassword}
                   onLogin={handleAuthorizeUser}
                 />
               }

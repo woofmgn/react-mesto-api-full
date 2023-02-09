@@ -1,7 +1,13 @@
+import React from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import logo from "../images/header-logo.svg";
 
-function Header({ email, onLogOutUser }) {
+interface IHeaderProps {
+  email: string;
+  onLogOutUser: () => void;
+}
+
+const Header: React.FC<IHeaderProps> = ({ email, onLogOutUser }) => {
   let location = useLocation();
   return (
     <header className="header">
@@ -43,6 +49,6 @@ function Header({ email, onLogOutUser }) {
       </div>
     </header>
   );
-}
+};
 
 export default Header;

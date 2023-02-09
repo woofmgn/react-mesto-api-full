@@ -1,15 +1,30 @@
+import React, { ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 
-function Register({ email, setEmail, password, setPassword, onRegister }) {
-  const handleChangeEmail = (evt) => {
+interface IRegisterProps {
+  email: string;
+  setEmail: (newEmail: string) => void;
+  password: string;
+  setPassword: (newPassword: string) => void;
+  onRegister: () => void;
+}
+
+const Register: React.FC<IRegisterProps> = ({
+  email,
+  setEmail,
+  password,
+  setPassword,
+  onRegister,
+}) => {
+  const handleChangeEmail = (evt: ChangeEvent<HTMLInputElement>) => {
     setEmail(evt.target.value);
   };
 
-  const handleChangePassword = (evt) => {
+  const handleChangePassword = (evt: ChangeEvent<HTMLInputElement>) => {
     setPassword(evt.target.value);
   };
 
-  const handleRegisterSubmit = (evt) => {
+  const handleRegisterSubmit = (evt: { preventDefault: () => void }) => {
     evt.preventDefault();
     onRegister();
   };
@@ -47,6 +62,6 @@ function Register({ email, setEmail, password, setPassword, onRegister }) {
       </section>
     </>
   );
-}
+};
 
 export default Register;

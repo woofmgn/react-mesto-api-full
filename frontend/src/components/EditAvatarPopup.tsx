@@ -1,16 +1,31 @@
-import { useEffect, useRef } from "react";
+import React, { ChangeEvent, useEffect, useRef } from "react";
 import PopupWithForm from "./PopupWithForm";
 
-function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, buttonLoading }) {
-  const avatarRef = useRef({});
+interface IEditAvatarPopupProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onUpdateAvatar: (avatarInfo: string) => void;
+  buttonLoading: boolean;
+}
 
-  const handleSubmit = (evt) => {
+const EditAvatarPopup: React.FC<IEditAvatarPopupProps> = ({
+  isOpen,
+  onClose,
+  onUpdateAvatar,
+  buttonLoading,
+}) => {
+  const avatarRef = useRef<HTMLInputElement>(null);
+
+  const handleSubmit = (evt: ChangeEvent<HTMLInputElement>) => {
     evt.preventDefault();
+    if (avatarRef.current === null) {
+      throw new Error(`Input with ID attribute not found`);
+    }
     onUpdateAvatar(avatarRef.current.value);
   };
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && avatarRef.current !== null) {
       avatarRef.current.value = "";
     }
   }, [isOpen]);
@@ -38,6 +53,6 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, buttonLoading }) {
       <span className="popup__input-error input-avatar-error"></span>
     </PopupWithForm>
   );
-}
+};
 
 export default EditAvatarPopup;

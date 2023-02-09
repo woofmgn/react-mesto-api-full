@@ -3,8 +3,8 @@ import PopupWithForm from "./PopupWithForm";
 
 interface IAddPlacePopupProps {
   isOpen: boolean;
-  onClose: Function;
-  onAddPlace: Function;
+  onClose: () => void;
+  onAddPlace: (cardTitle: string, cardLink: string) => void;
   buttonLoading: boolean;
 }
 
