@@ -1,13 +1,15 @@
-import { settingsApi } from "../utils/utils";
+import { settingsApi } from "./utils";
 
 class Api {
-  constructor(options) {
+  private _url: string;
+  private _token?: string;
+  constructor(options: {url: string} ) {
     this._url = options.url;
-    this._headers = options.headers;
-    this._token = localStorage.getItem("token");
+    // this._headers = options.headers;
+    // this._token = localStorage.getItem("token");
   }
 
-  _getResponseData(res) {
+  _getResponseData(res: Response) {
     if (!res.ok) {
       return Promise.reject(`Ошибка: ${res.status}`);
     }
@@ -15,7 +17,7 @@ class Api {
   }
 
   getInitialCards() {
-    this._token = localStorage.getItem("token");
+    this._token = localStorage.getItem("token") || '';
     return fetch(`${this._url}/cards`, {
       headers: {
         Accept: "application/json",
@@ -26,7 +28,7 @@ class Api {
   }
 
   getUserProfile() {
-    this._token = localStorage.getItem("token");
+    this._token = localStorage.getItem("token") || '';
     return fetch(`${this._url}/users/me`, {
       headers: {
         Accept: "application/json",
@@ -36,7 +38,7 @@ class Api {
     }).then(this._getResponseData);
   }
 
-  setUserProfile(data) {
+  setUserProfile(data: { name: string; about: string; }) {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
       headers: {
@@ -51,7 +53,7 @@ class Api {
     }).then(this._getResponseData);
   }
 
-  addNewCard(name, link) {
+  addNewCard(name: string, link: string) {
     return fetch(`${this._url}/cards`, {
       method: "POST",
       headers: {
@@ -66,20 +68,7 @@ class Api {
     }).then(this._getResponseData);
   }
 
-  // delCard(cardId, isOwner) {
-  //   return isOwner
-  //     ? fetch(`${this._url}/cards/${cardId}`, {
-  //         method: "DELETE",
-  //         headers: {
-  //           Accept: "application/json",
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${this._token}`,
-  //         },
-  //       }).then(this._getResponseData)
-  //     : null;
-  // }
-
-  delCard(cardId, isOwner) {
+  delCard(cardId: string) {
     return fetch(`${this._url}/cards/${cardId}`, {
       method: "DELETE",
       headers: {
@@ -90,7 +79,7 @@ class Api {
     }).then(this._getResponseData);
   }
 
-  _addLikeCard(cardId) {
+  _addLikeCard(cardId: string) {
     return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: "PUT",
       headers: {
@@ -101,7 +90,7 @@ class Api {
     }).then(this._getResponseData);
   }
 
-  _delLikeCard(cardId) {
+  _delLikeCard(cardId: string) {
     return fetch(`${this._url}/cards/${cardId}/likes`, {
       method: "DELETE",
       headers: {
@@ -112,11 +101,11 @@ class Api {
     }).then(this._getResponseData);
   }
 
-  changeLikeCardStatus(id, isLiked) {
+  changeLikeCardStatus(id: string, isLiked: boolean) {
     return isLiked ? this._addLikeCard(id) : this._delLikeCard(id);
   }
 
-  setUserAvatar(data) {
+  setUserAvatar(data: string) {
     return fetch(`${this._url}/users/me/avatar`, {
       method: "PATCH",
       headers: {

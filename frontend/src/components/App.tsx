@@ -271,7 +271,7 @@ function App() {
 
     if (isOwner) {
       api
-        .delCard(card._id, isOwner)
+        .delCard(card._id)
         .then(() => {
           setCards((state) => state.filter((c) => card._id !== c._id));
           closeAllPopups();
