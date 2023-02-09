@@ -1,13 +1,29 @@
-function Login({ email, setEmail, password, setPassword, onLogin }) {
-  const handleChangeEmail = (evt) => {
+import React, { ChangeEvent } from "react";
+
+interface ILoginProps {
+  email: string;
+  setEmail: (newEmail: string) => void;
+  password: string;
+  setPassword: (newPassword: string) => void;
+  onLogin: () => void;
+}
+
+const Login: React.FC<ILoginProps> = ({
+  email,
+  setEmail,
+  password,
+  setPassword,
+  onLogin,
+}) => {
+  const handleChangeEmail = (evt: ChangeEvent<HTMLInputElement>) => {
     setEmail(evt.target.value);
   };
 
-  const handleChangePassword = (evt) => {
+  const handleChangePassword = (evt: ChangeEvent<HTMLInputElement>) => {
     setPassword(evt.target.value);
   };
 
-  const handleLoginSubmit = (evt) => {
+  const handleLoginSubmit = (evt: { preventDefault: () => void }) => {
     evt.preventDefault();
     onLogin();
   };
@@ -39,6 +55,6 @@ function Login({ email, setEmail, password, setPassword, onLogin }) {
       </section>
     </>
   );
-}
+};
 
 export default Login;

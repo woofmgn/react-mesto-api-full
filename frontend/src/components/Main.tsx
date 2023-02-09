@@ -1,9 +1,21 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { ICards } from "./App";
 import Card from "./Card";
 import Loader from "./Loader";
 
-function Main({
+interface IMainProps {
+  cards: ICards[];
+  loading: boolean;
+  onEditProfile: () => void;
+  onAddPlace: () => void;
+  onEditAvatar: () => void;
+  onCardClick: (card: ICards) => void;
+  handleCardLike: (card: ICards) => void;
+  handleCardDelete: (card: ICards) => void;
+}
+
+const Main: React.FC<IMainProps> = ({
   cards,
   loading,
   onEditProfile,
@@ -12,7 +24,7 @@ function Main({
   onCardClick,
   handleCardLike,
   handleCardDelete,
-}) {
+}) => {
   const currentUser = useContext(CurrentUserContext);
 
   return (
@@ -65,6 +77,6 @@ function Main({
       )}
     </>
   );
-}
+};
 
 export default Main;

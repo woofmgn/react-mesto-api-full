@@ -1,7 +1,20 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { ICards } from "./App";
 
-function Card({ card, onCardClick, onCardLike, onCardDelete }) {
+interface ICardProps {
+  card: ICards;
+  onCardClick: (card: ICards) => void;
+  onCardLike: (card: ICards) => void;
+  onCardDelete: (card: ICards) => void;
+}
+
+const Card: React.FC<ICardProps> = ({
+  card,
+  onCardClick,
+  onCardLike,
+  onCardDelete,
+}) => {
   const currentUser = useContext(CurrentUserContext);
 
   const isOwn = card.owner === currentUser._id;
@@ -51,6 +64,6 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
       </div>
     </li>
   );
-}
+};
 
 export default Card;

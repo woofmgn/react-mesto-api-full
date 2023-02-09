@@ -17,8 +17,28 @@ import Main from "./Main";
 import { ProtectedRoute } from "./ProtectedRoute";
 import Register from "./Register";
 
+import React from "react";
 import regComplete from "../images/loginAccept.svg";
 import LogInFailed from "../images/loginFailed.svg";
+
+export interface ICards {
+  _id: string;
+  name: string;
+  link: string;
+  owner: string;
+  likes: string[];
+  createdAt?: string;
+  __v?: number;
+}
+
+export interface ICurrentUser {
+  _id: string;
+  name: string;
+  about: string;
+  avatar: string;
+  email: string;
+  __v?: number;
+}
 
 function App() {
   let navigate = useNavigate();
@@ -27,11 +47,11 @@ function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [isDeleteCardPopup, setDeleteCardPopup] = useState(false);
   const [isAuthPopup, setAuthPopup] = useState(false);
-  const [selectedCard, setSelectedCard] = useState({});
+  const [selectedCard, setSelectedCard] = useState({} as ICards);
   const [isImagePopupOpen, setImagePopupOpen] = useState(false);
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState<ICards[]>([]);
   const [loading, setLoading] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({} as ICurrentUser);
   const [buttonLoading, setButtonLoading] = useState(false);
 
   const [email, setEmail] = useState("");
@@ -42,7 +62,7 @@ function App() {
 
   useEffect(() => {
     handleCheckToken();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const dataPreload = () => {
@@ -96,13 +116,13 @@ function App() {
     setAuthPopup(!isAuthPopup);
   };
 
-  const handleCardClick = (card) => {
+  const handleCardClick = (card: ICards) => {
     setSelectedCard(card);
     setImagePopupOpen(!isImagePopupOpen);
   };
 
   // получаем стейт удаляемой карточки
-  const handleSelectDeleteCardClick = (card) => {
+  const handleSelectDeleteCardClick = (card: ICards) => {
     setSelectedCard(card);
     setDeleteCardPopup(!isDeleteCardPopup);
   };
@@ -115,7 +135,7 @@ function App() {
     setDeleteCardPopup(false);
     setAuthPopup(false);
     setInfoMessage("");
-    setSelectedCard({});
+    setSelectedCard({} as ICards);
   };
 
   const handleRegisterUser = () => {
@@ -188,7 +208,7 @@ function App() {
     }
   };
 
-  const handleUpdateUser = (userInfo) => {
+  const handleUpdateUser = (userInfo: { name: string; about: string }) => {
     setButtonLoading(true);
     api
       .setUserProfile(userInfo)
@@ -202,7 +222,7 @@ function App() {
       .finally(() => setButtonLoading(false));
   };
 
-  const handleUpdateAvatar = (avatarInfo) => {
+  const handleUpdateAvatar = (avatarInfo: string) => {
     setButtonLoading(true);
     api
       .setUserAvatar(avatarInfo)
@@ -216,7 +236,7 @@ function App() {
       .finally(() => setButtonLoading(false));
   };
 
-  const handleAddPlaceSubmit = (cardTitle, cardLink) => {
+  const handleAddPlaceSubmit = (cardTitle: string, cardLink: string) => {
     setButtonLoading(true);
     api
       .addNewCard(cardTitle, cardLink)
@@ -230,7 +250,7 @@ function App() {
       .finally(() => setButtonLoading(false));
   };
 
-  const handleCardLike = (card) => {
+  const handleCardLike = (card: ICards) => {
     const isLiked = card.likes.some((i) => i === currentUser._id);
 
     api
@@ -245,20 +265,30 @@ function App() {
       });
   };
 
-  const handleCardDelete = (card) => {
+  const handleCardDelete = (card: ICards) => {
     setButtonLoading(true);
     const isOwner = card.owner === currentUser._id;
 
-    api
-      .delCard(card._id, isOwner)
-      .then(() => {
-        setCards((state) => state.filter((c) => card._id !== c._id));
-        closeAllPopups();
-      })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      })
-      .finally(() => setButtonLoading(false));
+    if (isOwner) {
+      api
+        .delCard(card._id)
+        .then(() => {
+          setCards((state) => state.filter((c) => card._id !== c._id));
+          closeAllPopups();
+        })
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
+        })
+        .finally(() => setButtonLoading(false));
+    }
+  };
+
+  const handleSetEmail = (newEmail: string) => {
+    setEmail(newEmail);
+  };
+
+  const handleSetPassword = (newPassword: string) => {
+    setPassword(newPassword);
   };
 
   return (
@@ -289,9 +319,9 @@ function App() {
               element={
                 <Register
                   email={email}
-                  setEmail={setEmail}
+                  setEmail={handleSetEmail}
                   password={password}
-                  setPassword={setPassword}
+                  setPassword={handleSetPassword}
                   onRegister={handleRegisterUser}
                 />
               }
@@ -301,9 +331,9 @@ function App() {
               element={
                 <Login
                   email={email}
-                  setEmail={setEmail}
+                  setEmail={handleSetEmail}
                   password={password}
-                  setPassword={setPassword}
+                  setPassword={handleSetPassword}
                   onLogin={handleAuthorizeUser}
                 />
               }

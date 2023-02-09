@@ -1,4 +1,18 @@
-function PopupWithForm({
+import React from "react";
+
+interface IPopupWithFormProps {
+  name: string;
+  title: string;
+  buttonText: string;
+  buttonTextLoader: string;
+  children: React.ReactNode;
+  isOpen: boolean;
+  onClose: () => void;
+  onSubmit: (card: any) => void;
+  buttonLoading: boolean;
+}
+
+const PopupWithForm: React.FC<IPopupWithFormProps> = ({
   name,
   title,
   buttonText,
@@ -8,7 +22,7 @@ function PopupWithForm({
   onClose,
   onSubmit,
   buttonLoading,
-}) {
+}) => {
   return (
     <div className={`popup popup_type_${name} ${isOpen ? "popup_opened" : ""}`}>
       <div className="popup__container">
@@ -38,6 +52,6 @@ function PopupWithForm({
       </div>
     </div>
   );
-}
+};
 
 export default PopupWithForm;

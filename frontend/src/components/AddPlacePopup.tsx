@@ -1,20 +1,32 @@
-import { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import PopupWithForm from "./PopupWithForm";
 
-function AddPlacePopup({ isOpen, onClose, onAddPlace, buttonLoading }) {
+interface IAddPlacePopupProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onAddPlace: (cardTitle: string, cardLink: string) => void;
+  buttonLoading: boolean;
+}
+
+const AddPlacePopup: React.FC<IAddPlacePopupProps> = ({
+  isOpen,
+  onClose,
+  onAddPlace,
+  buttonLoading,
+}) => {
   const [newCardLink, setNewCardLink] = useState("");
   const [newCardTitle, setNewCardTitle] = useState("");
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = (evt: { preventDefault: () => void }) => {
     evt.preventDefault();
     onAddPlace(newCardTitle, newCardLink);
   };
 
-  const handleChangeLink = (evt) => {
+  const handleChangeLink = (evt: ChangeEvent<HTMLInputElement>) => {
     setNewCardLink(evt.target.value);
   };
 
-  const handleChangeTitle = (evt) => {
+  const handleChangeTitle = (evt: ChangeEvent<HTMLInputElement>) => {
     setNewCardTitle(evt.target.value);
   };
 
@@ -43,8 +55,8 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, buttonLoading }) {
         name="name"
         placeholder="Название"
         required
-        minLength="2"
-        maxLength="30"
+        minLength={2}
+        maxLength={30}
         onChange={handleChangeTitle}
         value={newCardTitle || ""}
       />
@@ -62,6 +74,6 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, buttonLoading }) {
       <span className="popup__input-error input-link-error"></span>
     </PopupWithForm>
   );
-}
+};
 
 export default AddPlacePopup;

@@ -1,4 +1,18 @@
-function InfoTooltip({ image, infoMessage, isOpen, onClose }) {
+import React from "react";
+
+interface IInfoTooltipProps {
+  image: string;
+  infoMessage: string;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const InfoTooltip: React.FC<IInfoTooltipProps> = ({
+  image,
+  infoMessage,
+  isOpen,
+  onClose,
+}) => {
   return (
     <div className={`popup popup_type_auth ${isOpen ? "popup_opened" : ""}`}>
       <div
@@ -14,6 +28,6 @@ function InfoTooltip({ image, infoMessage, isOpen, onClose }) {
       </div>
     </div>
   );
-}
+};
 
 export default InfoTooltip;

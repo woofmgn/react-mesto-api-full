@@ -1,19 +1,21 @@
-import { authUrl } from "../utils/utils";
+import { authUrl } from "./utils";
+
 
 class Auth {
-  constructor(options) {
-    this._url = options.url;
+  private _url: string
+  constructor(options: string) {
+    this._url = options;
   }
 
-  _getResponseData(res) {
+  _getResponseData(res: Response) {
     if (!res.ok) {
       return Promise.reject(`Ошибка: ${res.status}`);
     }
     return res.json();
   }
 
-  register(email, password) {
-    return fetch(`${authUrl}/signup`, {
+  register(email: string, password: string) {
+    return fetch(`${this._url}/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -23,8 +25,8 @@ class Auth {
     }).then(this._getResponseData);
   }
 
-  login(email, password) {
-    return fetch(`${authUrl}/signin`, {
+  login(email: string, password: string) {
+    return fetch(`${this._url}/signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -33,8 +35,8 @@ class Auth {
     }).then(this._getResponseData);
   }
 
-  checkToken(jwt) {
-    return fetch(`${authUrl}/users/me`, {
+  checkToken(jwt: string | null) {
+    return fetch(`${this._url}/users/me`, {
       method: "GET",
       headers: {
         "Accept": 'application/json',

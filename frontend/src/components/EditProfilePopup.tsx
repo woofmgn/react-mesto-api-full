@@ -1,22 +1,34 @@
-import { useContext, useEffect, useState } from "react";
+import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
 
-function EditProfilePopup({ isOpen, onClose, onUpdateUser, buttonLoading }) {
+interface EditProfilePopupProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onUpdateUser: (userInfo: { name: string; about: string }) => void;
+  buttonLoading: boolean;
+}
+
+const EditProfilePopup: React.FC<EditProfilePopupProps> = ({
+  isOpen,
+  onClose,
+  onUpdateUser,
+  buttonLoading,
+}) => {
   const currentUser = useContext(CurrentUserContext);
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
-  const handleChangeName = (evt) => {
+  const handleChangeName = (evt: ChangeEvent<HTMLInputElement>) => {
     setName(evt.target.value);
   };
 
-  const handleChangeDescription = (evt) => {
+  const handleChangeDescription = (evt: ChangeEvent<HTMLInputElement>) => {
     setDescription(evt.target.value);
   };
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = (evt: ChangeEvent<HTMLInputElement>) => {
     evt.preventDefault();
     onUpdateUser({
       name: name,
@@ -47,8 +59,8 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, buttonLoading }) {
         name="formName"
         placeholder="Имя"
         required
-        minLength="2"
-        maxLength="40"
+        minLength={2}
+        maxLength={40}
         value={name || ""}
         onChange={handleChangeName}
       />
@@ -60,13 +72,13 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, buttonLoading }) {
         name="formJob"
         placeholder="Сфера деятельности"
         required
-        minLength="2"
-        maxLength="200"
+        minLength={2}
+        maxLength={200}
         value={description || ""}
         onChange={handleChangeDescription}
       />
       <span className="popup__input-error input-job-error"></span>
     </PopupWithForm>
   );
-}
+};
 export default EditProfilePopup;
